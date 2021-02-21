@@ -14,9 +14,11 @@ class Serial : public QWidget
 public:
     explicit Serial(QWidget *parent = nullptr);
     ~Serial();
+    void SerialInit();
 
 private slots:
     void buttonSetPressed();
+
 
 private:
     Ui::Serial *ui;

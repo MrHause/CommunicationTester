@@ -1,5 +1,9 @@
 #include "serial.h"
 #include "ui_serial.h"
+#include "QList"
+#include "QtSerialPort"
+#include "QSerialPortInfo"
+
 
 Serial::Serial(QWidget *parent) :
     QWidget(parent),
@@ -17,4 +21,10 @@ Serial::~Serial()
 void Serial::buttonSetPressed(){
     int a = 0;
     a = 10;
+}
+
+void Serial::SerialInit(){
+    foreach (const QSerialPortInfo &serialPortInfo, QSerialPortInfo::availablePorts()){
+        ui->ListSerialPorts->addItem(serialPortInfo.portName());
+     }
 }

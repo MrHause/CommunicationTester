@@ -7,11 +7,19 @@ CommunicationTester::CommunicationTester(QWidget *parent)
     , ui(new Ui::CommunicationTester)
 {
     ui->setupUi(this);
-    ui->tabWidget->addTab(new Serial(), QString("Serial"));
+    serialWidget = new Serial();
+    ui->tabWidget->addTab(serialWidget, QString("Serial"));
+    connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(tabChanged(int)));
 }
 
 CommunicationTester::~CommunicationTester()
 {
     delete ui;
+}
+
+void CommunicationTester::tabChanged(int index){
+    if(index == 3){
+        serialWidget->SerialInit();
+    }
 }
 
