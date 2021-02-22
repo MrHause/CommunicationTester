@@ -16,8 +16,8 @@
   <widget class="QPushButton" name="ButtonSet">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>10</y>
+     <x>300</x>
+     <y>40</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -40,57 +40,53 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>50</y>
+     <y>90</y>
      <width>291</width>
      <height>171</height>
     </rect>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboBox_2">
+  <widget class="QComboBox" name="ListDataBits">
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>170</x>
      <y>10</y>
      <width>69</width>
      <height>22</height>
     </rect>
    </property>
+   <property name="currentIndex">
+    <number>-1</number>
+   </property>
   </widget>
-  <widget class="QComboBox" name="comboBox_3">
+  <widget class="QComboBox" name="ListBaudRate">
    <property name="geometry">
     <rect>
-     <x>340</x>
-     <y>50</y>
+     <x>260</x>
+     <y>10</y>
+     <width>69</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="currentIndex">
+    <number>-1</number>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="ListParity">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>40</y>
      <width>69</width>
      <height>22</height>
     </rect>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboBox_4">
+  <widget class="QComboBox" name="ListSropBits">
    <property name="geometry">
     <rect>
-     <x>330</x>
-     <y>90</y>
-     <width>69</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="comboBox_5">
-   <property name="geometry">
-    <rect>
-     <x>320</x>
-     <y>130</y>
-     <width>69</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="comboBox_6">
-   <property name="geometry">
-    <rect>
-     <x>320</x>
-     <y>170</y>
+     <x>90</x>
+     <y>40</y>
      <width>69</width>
      <height>22</height>
     </rect>
@@ -99,24 +95,34 @@
   <widget class="QLineEdit" name="lineEdit">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>240</y>
+     <x>10</x>
+     <y>270</y>
      <width>221</width>
      <height>20</height>
     </rect>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="ButtonSend">
    <property name="geometry">
     <rect>
-     <x>260</x>
-     <y>240</y>
+     <x>240</x>
+     <y>270</y>
      <width>75</width>
      <height>23</height>
     </rect>
    </property>
    <property name="text">
     <string>Send</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="ListFlowCtrl">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>40</y>
+     <width>69</width>
+     <height>22</height>
+    </rect>
    </property>
   </widget>
  </widget>

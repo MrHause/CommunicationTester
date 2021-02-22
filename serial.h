@@ -2,6 +2,8 @@
 #define SERIAL_H
 
 #include <QWidget>
+#include "QtSerialPort"
+#include "QSerialPortInfo"
 
 namespace Ui {
 class Serial;
@@ -18,10 +20,15 @@ public:
 
 private slots:
     void buttonSetPressed();
+    void buttonSendPressed();
 
 
 private:
     Ui::Serial *ui;
+    QSerialPort *m_serial = nullptr;
+    void fillParameters();
+    void updateSettings();
+
 };
 
 #endif // SERIAL_H
