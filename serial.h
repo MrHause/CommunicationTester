@@ -21,7 +21,7 @@ public:
 private slots:
     void buttonSetPressed();
     void buttonSendPressed();
-
+    void readSerialData();
 
 private:
     Ui::Serial *ui;

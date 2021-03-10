@@ -13,6 +13,8 @@ Serial::Serial(QWidget *parent) :
     connect(ui->ButtonSet, SIGNAL(released()), this, SLOT(buttonSetPressed()));
 
     m_serial = new QSerialPort();
+
+    connect(m_serial, SIGNAL(readyRead()), this, SLOT(readSerialData()));
     fillParameters();
 }
 
@@ -76,6 +78,13 @@ void Serial::fillParameters(){
     ui->ListFlowCtrl->addItem(tr("None"), QSerialPort::NoFlowControl);
     ui->ListFlowCtrl->addItem(tr("RTS/CTS"), QSerialPort::HardwareControl);
     ui->ListFlowCtrl->addItem(tr("XON/XOFF"), QSerialPort::SoftwareControl);
+}
+
+void Serial::readSerialData(){
+    QByteArray datas = m_serial->readAll();
+    QString msg(datas);
+    //ui->textReceive->append(msg);
+    qDebug() << datas;
 }
 
 
