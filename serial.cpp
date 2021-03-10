@@ -1,6 +1,7 @@
 #include "serial.h"
 #include "ui_serial.h"
 #include "QList"
+#include "qiodevice.h"
 
 
 Serial::Serial(QWidget *parent) :
@@ -21,7 +22,18 @@ Serial::~Serial()
 }
 
 void Serial::buttonSetPressed(){
+    m_serial->setBaudRate(ui->ListBaudRate->currentData().toInt());
+    m_serial->setDataBits(static_cast<QSerialPort::DataBits>(ui->ListDataBits->itemData(ui->ListDataBits->currentIndex()).toInt()));
+    m_serial->setParity(static_cast<QSerialPort::Parity>(ui->ListParity->itemData(ui->ListParity->currentIndex()).toInt()));
+    m_serial->setFlowControl(static_cast<QSerialPort::FlowControl>(ui->ListFlowCtrl->itemData(ui->ListFlowCtrl->currentIndex()).toInt()));
+    m_serial->setStopBits(static_cast<QSerialPort::StopBits>(ui->ListSropBits->itemData(ui->ListSropBits->currentIndex()).toInt()));
+    m_serial->setPortName(ui->ListSerialPorts->currentText());
 
+    if( m_serial->open(QIODevice::ReadWrite) ){
+        qDebug() << "Connected to "<< ui->ListSerialPorts->currentText();
+    }else{
+        qDebug() << "Error during connecting";
+    }
 }
 
 void Serial::SerialInit(){
@@ -32,7 +44,7 @@ void Serial::SerialInit(){
 }
 
 void Serial::buttonSendPressed(){
-    m_serial->setBaudRate(ui->ListBaudRate->currentData().toInt());
+
     //m_serial->setDataBits(ui->ListDataBits->);
 }
 
@@ -66,36 +78,5 @@ void Serial::fillParameters(){
     ui->ListFlowCtrl->addItem(tr("XON/XOFF"), QSerialPort::SoftwareControl);
 }
 
-void Serial::updateSettings(){
-    /*
-    m_currentSettings.name = m_ui->serialPortInfoListBox->currentText();
-
-    if (m_ui->baudRateBox->currentIndex() == 4) {
-        m_currentSettings.baudRate = m_ui->baudRateBox->currentText().toInt();
-    } else {
-        m_currentSettings.baudRate = static_cast<QSerialPort::BaudRate>(
-                    m_ui->baudRateBox->itemData(m_ui->baudRateBox->currentIndex()).toInt());
-    }
-    m_currentSettings.stringBaudRate = QString::number(m_currentSettings.baudRate);
-
-    m_currentSettings.dataBits = static_cast<QSerialPort::DataBits>(
-                m_ui->dataBitsBox->itemData(m_ui->dataBitsBox->currentIndex()).toInt());
-    m_currentSettings.stringDataBits = m_ui->dataBitsBox->currentText();
-
-    m_currentSettings.parity = static_cast<QSerialPort::Parity>(
-                m_ui->parityBox->itemData(m_ui->parityBox->currentIndex()).toInt());
-    m_currentSettings.stringParity = m_ui->parityBox->currentText();
-
-    m_currentSettings.stopBits = static_cast<QSerialPort::StopBits>(
-                m_ui->stopBitsBox->itemData(m_ui->stopBitsBox->currentIndex()).toInt());
-    m_currentSettings.stringStopBits = m_ui->stopBitsBox->currentText();
-
-    m_currentSettings.flowControl = static_cast<QSerialPort::FlowControl>(
-                m_ui->flowControlBox->itemData(m_ui->flowControlBox->currentIndex()).toInt());
-    m_currentSettings.stringFlowControl = m_ui->flowControlBox->currentText();
-
-    m_currentSettings.localEchoEnabled = m_ui->localEchoCheckBox->isChecked();
-    */
-}
 
 
