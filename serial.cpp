@@ -46,7 +46,10 @@ void Serial::SerialInit(){
 }
 
 void Serial::buttonSendPressed(){
-
+    QString textStr = ui->lineEdit->text();
+    QByteArray bytes = textStr.toUtf8();
+    bytes.append((char)0x0A); //add CR
+    m_serial->write(bytes);
     //m_serial->setDataBits(ui->ListDataBits->);
 }
 
@@ -83,7 +86,7 @@ void Serial::fillParameters(){
 void Serial::readSerialData(){
     QByteArray datas = m_serial->readAll();
     QString msg(datas);
-    //ui->textReceive->append(msg);
+    ui->textEditReceive->append(msg);
     qDebug() << datas;
 }
 
