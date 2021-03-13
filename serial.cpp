@@ -16,6 +16,12 @@ Serial::Serial(QWidget *parent) :
 
     connect(m_serial, SIGNAL(readyRead()), this, SLOT(readSerialData()));
     fillParameters();
+
+    ui->textEditReceive->setReadOnly(true);
+    portIsOpened = false;
+    ui->textEditReceive->setEnabled(false);
+    ui->ButtonSend->setEnabled(false);
+    ui->lineEdit->setEnabled(false);
 }
 
 Serial::~Serial()
@@ -24,17 +30,47 @@ Serial::~Serial()
 }
 
 void Serial::buttonSetPressed(){
-    m_serial->setBaudRate(ui->ListBaudRate->currentData().toInt());
-    m_serial->setDataBits(static_cast<QSerialPort::DataBits>(ui->ListDataBits->itemData(ui->ListDataBits->currentIndex()).toInt()));
-    m_serial->setParity(static_cast<QSerialPort::Parity>(ui->ListParity->itemData(ui->ListParity->currentIndex()).toInt()));
-    m_serial->setFlowControl(static_cast<QSerialPort::FlowControl>(ui->ListFlowCtrl->itemData(ui->ListFlowCtrl->currentIndex()).toInt()));
-    m_serial->setStopBits(static_cast<QSerialPort::StopBits>(ui->ListSropBits->itemData(ui->ListSropBits->currentIndex()).toInt()));
-    m_serial->setPortName(ui->ListSerialPorts->currentText());
-
-    if( m_serial->open(QIODevice::ReadWrite) ){
-        qDebug() << "Connected to "<< ui->ListSerialPorts->currentText();
+    if(portIsOpened){
+        ui->textEditReceive->setStyleSheet("color: orange;  background-color: white");
+        ui->textEditReceive->append("Port Closed");
+        ui->textEditReceive->setStyleSheet("color: black;  background-color: white");
+        ui->ButtonSet->setText("Open");
+        ui->ListBaudRate->setEnabled(true);
+        ui->ListDataBits->setEnabled(true);
+        ui->ListFlowCtrl->setEnabled(true);
+        ui->ListParity->setEnabled(true);
+        ui->ListSerialPorts->setEnabled(true);
+        ui->ListSropBits->setEnabled(true);
+        ui->textEditReceive->setEnabled(false);
+        ui->ButtonSend->setEnabled(false);
+        ui->lineEdit->setEnabled(false);
     }else{
-        qDebug() << "Error during connecting";
+        m_serial->setBaudRate(ui->ListBaudRate->currentData().toInt());
+        m_serial->setDataBits(static_cast<QSerialPort::DataBits>(ui->ListDataBits->itemData(ui->ListDataBits->currentIndex()).toInt()));
+        m_serial->setParity(static_cast<QSerialPort::Parity>(ui->ListParity->itemData(ui->ListParity->currentIndex()).toInt()));
+        m_serial->setFlowControl(static_cast<QSerialPort::FlowControl>(ui->ListFlowCtrl->itemData(ui->ListFlowCtrl->currentIndex()).toInt()));
+        m_serial->setStopBits(static_cast<QSerialPort::StopBits>(ui->ListSropBits->itemData(ui->ListSropBits->currentIndex()).toInt()));
+        m_serial->setPortName(ui->ListSerialPorts->currentText());
+
+        if( m_serial->open(QIODevice::ReadWrite) ){
+            qDebug() << "Connected to "<< ui->ListSerialPorts->currentText();
+            ui->textEditReceive->setStyleSheet("color: orange;  background-color: white");
+            ui->textEditReceive->append(ui->ListSerialPorts->currentText());
+            ui->textEditReceive->setStyleSheet("color: black;  background-color: white");
+            portIsOpened = true;
+            ui->ButtonSet->setText("Close");
+            ui->ListBaudRate->setEnabled(false);
+            ui->ListDataBits->setEnabled(false);
+            ui->ListFlowCtrl->setEnabled(false);
+            ui->ListParity->setEnabled(false);
+            ui->ListSerialPorts->setEnabled(false);
+            ui->ListSropBits->setEnabled(false);
+            ui->textEditReceive->setEnabled(true);
+            ui->ButtonSend->setEnabled(true);
+            ui->lineEdit->setEnabled(true);
+        }else{
+            qDebug() << "Error during connecting";
+        }
     }
 }
 
@@ -48,7 +84,12 @@ void Serial::SerialInit(){
 void Serial::buttonSendPressed(){
     QString textStr = ui->lineEdit->text();
     QByteArray bytes = textStr.toUtf8();
-    bytes.append((char)0x0A); //add CR
+    if(ui->checkBox_CR->isChecked())
+        bytes.append((char)0x0D); //add \r
+
+    if(ui->checkBox_LF->isChecked())
+        bytes.append((char)0x0A); //add \n
+
     m_serial->write(bytes);
     //m_serial->setDataBits(ui->ListDataBits->);
 }

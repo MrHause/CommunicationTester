@@ -24,6 +24,7 @@ private slots:
     void readSerialData();
 
 private:
+    bool portIsOpened;
     Ui::Serial *ui;
     QSerialPort *m_serial = nullptr;
     void fillParameters();

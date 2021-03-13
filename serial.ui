@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>761</width>
+    <height>511</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>Form</string>
@@ -41,8 +47,8 @@
     <rect>
      <x>10</x>
      <y>90</y>
-     <width>291</width>
-     <height>171</height>
+     <width>611</width>
+     <height>331</height>
     </rect>
    </property>
   </widget>
@@ -96,8 +102,8 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>270</y>
-     <width>221</width>
+     <y>440</y>
+     <width>421</width>
      <height>20</height>
     </rect>
    </property>
@@ -105,8 +111,8 @@
   <widget class="QPushButton" name="ButtonSend">
    <property name="geometry">
     <rect>
-     <x>240</x>
-     <y>270</y>
+     <x>480</x>
+     <y>440</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -128,8 +134,8 @@
   <widget class="QCheckBox" name="checkBox_CR">
    <property name="geometry">
     <rect>
-     <x>330</x>
-     <y>250</y>
+     <x>570</x>
+     <y>430</y>
      <width>41</width>
      <height>20</height>
     </rect>
@@ -141,14 +147,20 @@
     <string>CR</string>
    </property>
   </widget>
-  <widget class="QCheckBox" name="checkBox_2">
+  <widget class="QCheckBox" name="checkBox_LF">
    <property name="geometry">
     <rect>
-     <x>330</x>
-     <y>270</y>
+     <x>570</x>
+     <y>450</y>
      <width>41</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
    </property>
    <property name="layoutDirection">
     <enum>Qt::RightToLeft</enum>
