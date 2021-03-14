@@ -1,6 +1,7 @@
 #include "communicationtester.h"
 #include "ui_communicationtester.h"
 #include "serial.h"
+#include "tcpclient.h"
 
 CommunicationTester::CommunicationTester(QWidget *parent)
     : QMainWindow(parent)
@@ -8,7 +9,9 @@ CommunicationTester::CommunicationTester(QWidget *parent)
 {
     ui->setupUi(this);
     serialWidget = new Serial();
+    TCPClientWidget = new TCPClient();
     ui->tabWidget->addTab(serialWidget, QString("Serial"));
+    ui->tabWidget->addTab(TCPClientWidget, QString("TCP Client"));
     connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(tabChanged(int)));
 }
 

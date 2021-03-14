@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <serial.h>
+#include "tcpclient.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class CommunicationTester; }
@@ -22,6 +23,7 @@ private slots:
 private:
     Ui::CommunicationTester *ui;
     Serial *serialWidget;
+    TCPClient *TCPClientWidget;
 
 };
 #endif // COMMUNICATIONTESTER_H

@@ -12,15 +12,18 @@ CONFIG += c++11
 SOURCES += \
     main.cpp \
     communicationtester.cpp \
-    serial.cpp
+    serial.cpp \
+    tcpclient.cpp
 
 HEADERS += \
     communicationtester.h \
-    serial.h
+    serial.h \
+    tcpclient.h
 
 FORMS += \
     communicationtester.ui \
-    serial.ui
+    serial.ui \
+    tcpclient.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
