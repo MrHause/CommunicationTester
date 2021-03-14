@@ -11,17 +11,17 @@ Serial::Serial(QWidget *parent) :
     ui->setupUi(this);
     connect(ui->ButtonSend, SIGNAL(released()), this, SLOT(buttonSendPressed()));
     connect(ui->ButtonSet, SIGNAL(released()), this, SLOT(buttonSetPressed()));
+    connect(ui->ButtonStart, SIGNAL(released()), this, SLOT(buttonStartPressed()));
 
+    //serial
     m_serial = new QSerialPort();
-
     connect(m_serial, SIGNAL(readyRead()), this, SLOT(readSerialData()));
-    fillParameters();
 
-    ui->textEditReceive->setReadOnly(true);
-    portIsOpened = false;
-    ui->textEditReceive->setEnabled(false);
-    ui->ButtonSend->setEnabled(false);
-    ui->lineEdit->setEnabled(false);
+    //timer
+    timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(timerTimeout()));
+
+    fillParameters();
 }
 
 Serial::~Serial()
@@ -44,6 +44,11 @@ void Serial::buttonSetPressed(){
         ui->textEditReceive->setEnabled(false);
         ui->ButtonSend->setEnabled(false);
         ui->lineEdit->setEnabled(false);
+        ui->lineEditSetTxt->setEnabled(false);
+        ui->lineEditTimeout->setEnabled(false);
+        ui->ButtonSend->setEnabled(false);
+        portIsOpened = false;
+        m_serial->close();
     }else{
         m_serial->setBaudRate(ui->ListBaudRate->currentData().toInt());
         m_serial->setDataBits(static_cast<QSerialPort::DataBits>(ui->ListDataBits->itemData(ui->ListDataBits->currentIndex()).toInt()));
@@ -68,6 +73,9 @@ void Serial::buttonSetPressed(){
             ui->textEditReceive->setEnabled(true);
             ui->ButtonSend->setEnabled(true);
             ui->lineEdit->setEnabled(true);
+            ui->lineEditSetTxt->setEnabled(true);
+            ui->lineEditTimeout->setEnabled(true);
+            ui->ButtonStart->setEnabled(true);
         }else{
             qDebug() << "Error during connecting";
         }
@@ -95,6 +103,7 @@ void Serial::buttonSendPressed(){
 }
 
 void Serial::fillParameters(){
+    //-----------serial parameters--------------
     ui->ListBaudRate->addItem(QStringLiteral("9600"), QSerialPort::Baud9600);
     ui->ListBaudRate->addItem(QStringLiteral("19200"), QSerialPort::Baud19200);
     ui->ListBaudRate->addItem(QStringLiteral("38400"), QSerialPort::Baud38400);
@@ -122,6 +131,17 @@ void Serial::fillParameters(){
     ui->ListFlowCtrl->addItem(tr("None"), QSerialPort::NoFlowControl);
     ui->ListFlowCtrl->addItem(tr("RTS/CTS"), QSerialPort::HardwareControl);
     ui->ListFlowCtrl->addItem(tr("XON/XOFF"), QSerialPort::SoftwareControl);
+
+    //------------widget setups------------------------
+    ui->textEditReceive->setReadOnly(true);
+    portIsOpened = false;
+    isAutoSend = false;
+    ui->textEditReceive->setEnabled(false);
+    ui->ButtonSend->setEnabled(false);
+    ui->lineEdit->setEnabled(false);
+    ui->lineEditSetTxt->setEnabled(false);
+    ui->lineEditTimeout->setEnabled(false);
+    ui->ButtonStart->setEnabled(false);
 }
 
 void Serial::readSerialData(){
@@ -129,6 +149,39 @@ void Serial::readSerialData(){
     QString msg(datas);
     ui->textEditReceive->append(msg);
     qDebug() << datas;
+}
+
+void Serial::buttonStartPressed(){
+    if(isAutoSend){
+        timer->stop();
+        isAutoSend = false;
+        ui->ButtonStart->setText("START");
+        ui->lineEditSetTxt->setEnabled(true);
+        ui->lineEditTimeout->setEnabled(true);
+    }else{
+        QString timeStr = ui->lineEditTimeout->text();
+        int time = timeStr.toInt();
+        if(time < 0)
+            return;
+        timer->setInterval(time);
+        timer->start();
+        isAutoSend = true;
+        ui->ButtonStart->setText("STOP");
+        ui->lineEditSetTxt->setEnabled(false);
+        ui->lineEditTimeout->setEnabled(false);
+    }
+}
+
+void Serial::timerTimeout(){
+    QString textStr = ui->lineEditSetTxt->text();
+    QByteArray bytes = textStr.toUtf8();
+    if(ui->checkBox_CR->isChecked())
+        bytes.append((char)0x0D); //add \r
+
+    if(ui->checkBox_LF->isChecked())
+        bytes.append((char)0x0A); //add \n
+
+    m_serial->write(bytes);
 }
 
 
