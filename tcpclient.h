@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QTcpSocket>
+#include <QTimer>
 
 namespace Ui {
 class TCPClient;
@@ -22,11 +23,15 @@ private slots:
     void buttonConnectPressed();
     void buttonSendpressed();
     void buttonClearpressed();
+    void buttonStartpressed();
+    void timerTimeout();
 
 private:
     Ui::TCPClient *ui;
     QTcpSocket *tcpSocket;
+    QTimer *tcpTimer;
     bool connect_status;
+    bool isAutoSend;
 };
 
 #endif // TCPCLIENT_H

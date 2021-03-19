@@ -99,6 +99,39 @@ p, li { white-space: pre-wrap; }
     </rect>
    </property>
   </widget>
+  <widget class="QLineEdit" name="lineEditSetTxt">
+   <property name="geometry">
+    <rect>
+     <x>16</x>
+     <y>440</y>
+     <width>568</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="ButtonStart">
+   <property name="geometry">
+    <rect>
+     <x>675</x>
+     <y>438</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>START</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditTimeout">
+   <property name="geometry">
+    <rect>
+     <x>590</x>
+     <y>440</y>
+     <width>75</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

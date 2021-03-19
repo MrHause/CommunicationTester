@@ -9,12 +9,15 @@ TCPClient::TCPClient(QWidget *parent) :
     ui->setupUi(this);
 
     tcpSocket = new QTcpSocket(this);
+    tcpTimer = new QTimer(this);
 
     connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(onReadyRead()));
     connect(tcpSocket, SIGNAL(connected()), this, SLOT(client_connected()));
     connect(ui->ButtonConnect, SIGNAL(released()), this, SLOT(buttonConnectPressed()));
     connect(ui->ButtonSend, SIGNAL(released()), this, SLOT(buttonSendpressed()));
     connect(ui->ButtonClear, SIGNAL(released()), this, SLOT(buttonClearpressed()));
+    connect(ui->ButtonStart, SIGNAL(released()), this, SLOT(buttonStartpressed()));
+    connect(tcpTimer, SIGNAL(timeout()), this, SLOT(timerTimeout()));
 
     ui->lineIP->setText("192.168.1.46");
     ui->linePort->setText("7");
@@ -60,4 +63,38 @@ void TCPClient::buttonSendpressed(){
 }
 void TCPClient::buttonClearpressed(){
 
+}
+
+void TCPClient::buttonStartpressed(){
+    if(isAutoSend){
+        tcpTimer->stop();
+        isAutoSend = false;
+        ui->ButtonStart->setText("START");
+        ui->lineEditSetTxt->setEnabled(true);
+        ui->lineEditTimeout->setEnabled(true);
+    }else{
+        QString timeStr = ui->lineEditTimeout->text();
+        int time = timeStr.toInt();
+        if(time < 0)
+            return;
+        tcpTimer->setInterval(time);
+        tcpTimer->start();
+        isAutoSend = true;
+        ui->ButtonStart->setText("STOP");
+        ui->lineEditSetTxt->setEnabled(false);
+        ui->lineEditTimeout->setEnabled(false);
+    }
+}
+
+void TCPClient::timerTimeout(){
+    QString textStr = ui->lineEditSetTxt->text();
+    QByteArray bytes = textStr.toUtf8();
+    /*
+    if(ui->checkBox_CR->isChecked())
+        bytes.append((char)0x0D); //add \r
+
+    if(ui->checkBox_LF->isChecked())
+        bytes.append((char)0x0A); //add \n
+    */
+    tcpSocket->write(bytes);
 }
