@@ -23,6 +23,8 @@ TCPClient::TCPClient(QWidget *parent) :
     ui->linePort->setText("7");
 
     connect_status = false;
+
+    setWidgetEnables(false);
 }
 
 TCPClient::~TCPClient()
@@ -40,6 +42,7 @@ void TCPClient::client_connected(){
     ui->textReceive->append(msg);
     ui->ButtonConnect->setText("Disconnect");
     connect_status = true;
+    setWidgetEnables(true);
 }
 void TCPClient::buttonConnectPressed(){
     if(!connect_status){
@@ -52,7 +55,10 @@ void TCPClient::buttonConnectPressed(){
             || tcpSocket->waitForDisconnected(1000)) {
                 ui->textReceive->append("Disconnected");
                 ui->ButtonConnect->setText("connect");
+                tcpTimer->stop();
+                isAutoSend = false;
                 connect_status = false;
+                setWidgetEnables(false);
         }
     }
 }
@@ -62,7 +68,7 @@ void TCPClient::buttonSendpressed(){
     tcpSocket->write(bytes);
 }
 void TCPClient::buttonClearpressed(){
-
+    ui->textReceive->clear();
 }
 
 void TCPClient::buttonStartpressed(){
@@ -89,12 +95,24 @@ void TCPClient::buttonStartpressed(){
 void TCPClient::timerTimeout(){
     QString textStr = ui->lineEditSetTxt->text();
     QByteArray bytes = textStr.toUtf8();
-    /*
+
     if(ui->checkBox_CR->isChecked())
         bytes.append((char)0x0D); //add \r
 
     if(ui->checkBox_LF->isChecked())
         bytes.append((char)0x0A); //add \n
-    */
+
     tcpSocket->write(bytes);
+}
+
+void TCPClient::setWidgetEnables(bool state){
+    ui->ButtonClear->setEnabled(state);
+    ui->ButtonSend->setEnabled(state);
+    ui->ButtonStart->setEnabled(state);
+    ui->checkBox_CR->setEnabled(state);
+    ui->checkBox_LF->setEnabled(state);
+    ui->textReceive->setEnabled(state);
+    ui->lineEditSetTxt->setEnabled(state);
+    ui->lineEditTimeout->setEnabled(state);
+    ui->lineSend->setEnabled(state);
 }

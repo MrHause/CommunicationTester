@@ -27,6 +27,7 @@ private slots:
     void timerTimeout();
 
 private:
+    void setWidgetEnables(bool state);
     Ui::TCPClient *ui;
     QTcpSocket *tcpSocket;
     QTimer *tcpTimer;
