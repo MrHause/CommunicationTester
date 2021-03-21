@@ -26,5 +26,28 @@ void tcpserver::buttonListenPressed(){
 }
 
 void tcpserver::newConnectionHandler(){
+    while (m_server->hasPendingConnections()){
+        QTcpSocket *new_client = m_server->nextPendingConnection();
+        tcpClients.insert(new_client);
+        connect(new_client, SIGNAL(readyRead()),this, SLOT(receiveData()));
+        connect(new_client, SIGNAL(disconnected()), this, SLOT(disconnectHandler()));
+    }
+           //appendToSocketList(m_server->nextPendingConnection());
     ui->textReceive->append("new Client connected");
+}
+
+void tcpserver::receiveData(){
+    QTcpSocket *new_socket = reinterpret_cast<QTcpSocket *>(sender());
+    QByteArray msg = new_socket->readAll();
+    ui->textReceive->append(QString(msg));
+}
+
+void tcpserver::disconnectHandler(){
+    QTcpSocket *new_socket = reinterpret_cast<QTcpSocket *>(sender());
+    QSet<QTcpSocket *>::Iterator it = tcpClients.find(new_socket);
+    if(it != tcpClients.end()){
+        ui->textReceive->append(QString("client disconnected"));
+        tcpClients.remove(*it);
+    }
+    new_socket->deleteLater();
 }

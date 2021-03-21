@@ -21,6 +21,8 @@ public:
 private slots:
     void buttonListenPressed();
     void newConnectionHandler();
+    void receiveData();
+    void disconnectHandler();
 
 private:
     Ui::tcpserver *ui;
