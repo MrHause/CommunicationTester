@@ -14,17 +14,20 @@ SOURCES += \
     main.cpp \
     communicationtester.cpp \
     serial.cpp \
-    tcpclient.cpp
+    tcpclient.cpp \
+    tcpserver.cpp
 
 HEADERS += \
     communicationtester.h \
     serial.h \
-    tcpclient.h
+    tcpclient.h \
+    tcpserver.h
 
 FORMS += \
     communicationtester.ui \
     serial.ui \
-    tcpclient.ui
+    tcpclient.ui \
+    tcpserver.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

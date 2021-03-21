@@ -33,7 +33,7 @@
      <enum>QTabWidget::Triangular</enum>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>-1</number>
     </property>
     <property name="iconSize">
      <size>
@@ -41,21 +41,6 @@
       <height>32</height>
      </size>
     </property>
-    <widget class="QWidget" name="SerialTab">
-     <attribute name="title">
-      <string>Serial</string>
-     </attribute>
-    </widget>
-    <widget class="QWidget" name="TCPClientTab">
-     <attribute name="title">
-      <string>TCP Client</string>
-     </attribute>
-    </widget>
-    <widget class="QWidget" name="TCPServerTab">
-     <attribute name="title">
-      <string>TCP Server</string>
-     </attribute>
-    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

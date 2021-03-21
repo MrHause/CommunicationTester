@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <serial.h>
 #include "tcpclient.h"
+#include "tcpserver.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class CommunicationTester; }
@@ -24,6 +25,6 @@ private:
     Ui::CommunicationTester *ui;
     Serial *serialWidget;
     TCPClient *TCPClientWidget;
-
+    tcpserver *TCPServerWidget;
 };
 #endif // COMMUNICATIONTESTER_H
