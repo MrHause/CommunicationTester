@@ -23,11 +23,15 @@ private slots:
     void newConnectionHandler();
     void receiveData();
     void disconnectHandler();
+    void buttonSendPressed();
+    void setWidgetEnables(bool state);
 
 private:
     Ui::tcpserver *ui;
     QSet<QTcpSocket *> tcpClients;
     QTcpServer *m_server;
+    int connected_clients;
+    bool is_listening;
 };
 
 #endif // TCPSERVER_H
